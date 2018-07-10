@@ -1,22 +1,35 @@
-import Reakt from './lib/reakt.js';
+import Reakt, { Component } from './lib/reakt.js';
 
-const Title = (props) => Reakt.createElement(
+const Title = ({ text }) => Reakt.createElement(
   'h1',
-  null,
-  props.text
+  {
+    style: 'color: blue',
+    innerHTML: text,
+    propKey: 5
+  },
 )
 
-const App = () => Reakt.createElement(
-  'div',
-  null,
-  Reakt.createElement(
-    Title,
-    { text: 'hello props' }
-  )
-);
+class App extends Component {
+
+  render() {
+    const { text } = this.props;
+
+    return Reakt.createElement(
+      'div',
+      null,
+      Reakt.createElement(
+        Title,
+        { text }),
+      Reakt.createElement(
+        'button',
+        { onClick: () => alert('clicked') },
+        'click me')
+    )
+  }
+}
 
 Reakt.render(
-  Reakt.createElement(App),
+  Reakt.createElement(App, {text: 'props form class'}),
   document.getElementById('app')
 )
 
