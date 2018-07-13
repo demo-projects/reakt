@@ -1,1 +1,1 @@
-# reakt - Leraning core concepts of a v-dom library
+# Reakt - Leraning the core concepts of a v-dom library
