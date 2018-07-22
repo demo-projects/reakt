@@ -1,23 +1,24 @@
-import { isClass, isFunction, isString, isEvent } from './reakt-utils.js'
+import {isClass, isEvent, isFunction, isString} from './reakt-utils.js'
 
 // base class
 export class Component {
 
-  constructor(props){
+  constructor(props) {
     this.props = props;
   }
 }
 
+// create DOM from virtual nodes
 function renderNode(vNode) {
-  const { nodeName, props, children} = vNode;
+  const {nodeName, props, children} = vNode;
 
-  // support class 
+  // support class
   if (isClass(nodeName)) {
     const component = new nodeName(props);
     return renderNode(component.render());
   }
 
-  // support functional components 
+  // support functional components
   if (isFunction(nodeName)) {
     return renderNode(nodeName(props));
   }
@@ -27,13 +28,13 @@ function renderNode(vNode) {
 
     handleProps(props, element);
     handleChildren(children, element);
-    
+
     return element;
   }
 }
 
 function handleChildren(children, element) {
-  
+
   (children || []).forEach(child => {
     if (isString(child)) {
       element.appendChild(document.createTextNode(child));
@@ -62,16 +63,18 @@ function handleProps(props, element) {
   }
 }
 
+
 let currentApp;
-function render(element, rootElement) {  
+
+function render(element, rootElement) {
   const app = renderNode(element);
 
-  currentApp ? 
-  rootElement.replaceChild(app, currentApp) :
-  rootElement.appendChild(app);
+  currentApp ?
+    rootElement.replaceChild(app, currentApp) :
+    rootElement.appendChild(app);
 
   currentApp = app;
 
 }
 
-export default { render };
+export default {render};
