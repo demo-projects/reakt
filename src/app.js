@@ -1,32 +1,41 @@
-import Reakt from './lib/reakt.js';
-import ReaktDOM, {Component} from './lib/reakt-dom.js';
+import Reakt, {Component} from './lib/reakt.js';
+import ReaktDOM from './lib/reakt-dom.js';
 
 class List extends Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      items: []
+    };
+
+    setInterval(() => {
+      this.setState({
+        items: [...this.state.items, '\ud83e\udd68']
+      })
+    }, 1500);
+  }
+
   render() {
-    return Reakt.createElement(
-      'div',
-      null,
-      Reakt.createElement('h1', null, "Pretzel Factory"),
-      Reakt.createElement('ul', null,
-        ...this.props.items.map(item => Reakt.createElement('li', null, item)))
-    )
+    return Reakt.createElement('ul', null,
+      ...this.state.items.map(item => Reakt.createElement('li', null, item)))
   }
 }
 
-const items = [];
-
-setInterval(() => {
-  items.push('\ud83e\udd68');
-  render(items);
-}, 1500)
-
-function render(items) {
-  ReaktDOM.render(
-    Reakt.createElement(List, { items }),
-    document.getElementById('app')
+const App = () => (
+  Reakt.createElement(
+    'div',
+    null,
+    Reakt.createElement('h1', null, "Pretzel Factory"),
+    Reakt.createElement(List),
   )
-}
+);
 
-render(items)
+
+ReaktDOM.render(
+  Reakt.createElement(App, null),
+  document.getElementById('app')
+);
+
 
